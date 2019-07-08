@@ -15,15 +15,19 @@ class Pair:
 # '''
 class BasicHashTable:
     def __init__(self, capacity):
-        pass
+       self.storage = [None] * capacity
 
 
 # '''
 # Fill this in.
 # Research and implement the djb2 hash function
 # '''
+# https://gist.github.com/mengzhuo/180cd6be8ba9e2743753 and http://www.goodmath.org/blog/2013/10/20/basic-data-structures-hash-tables/
 def hash(string, max):
-    pass
+    hash = 5381
+    for x in string:
+        hash = (hash * 33) + ord(x)
+    return hash
 
 
 # '''
