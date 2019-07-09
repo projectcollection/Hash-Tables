@@ -66,6 +66,8 @@ def hash_table_remove(hash_table, key):
     if hash_table.storage[index] is not None:
         key_found = False
         current = hash_table.storage[index] 
+        if current.key == key:
+            current.value = None
         while current.key != key and current.next is not None:
             current = current.next
             if current.key == key:
