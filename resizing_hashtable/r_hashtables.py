@@ -41,15 +41,20 @@ def hash_table_insert(hash_table, key, value):
     if hash_table.storage[index] is not None:
         key_exists = False
         current = hash_table.storage[index]
+
+        #check if the root if linked list has the key if so return early
         if current.key == key:
             current.value = value
             return
+
+        #traverse through the linked list looking for the key 
         while current.next is not None:
             current = current.next
             if current.key == key:
                 current.value = value
                 key_exists = True
                 break
+        #add at the end if its not found
         if not key_exists:
             current.next = LinkedPair(key, value)
     else:
@@ -66,8 +71,11 @@ def hash_table_remove(hash_table, key):
     if hash_table.storage[index] is not None:
         key_found = False
         current = hash_table.storage[index] 
+        # check if the root of linkedlist has the key and return early
         if current.key == key:
             current.value = None
+            return
+
         while current.key != key and current.next is not None:
             current = current.next
             if current.key == key:
@@ -90,13 +98,17 @@ def hash_table_retrieve(hash_table, key):
     if hash_table.storage[index] is not None:
         key_found = False
         current = hash_table.storage[index] 
+
+        # check if root of linked list has the key and return the value
         if current.key == key:
             return current.value
+
         while current.next is not None:
             current = current.next
             if current.key == key:
                 key_found = True
                 return current.value
+
         return None
     else:
         return None
