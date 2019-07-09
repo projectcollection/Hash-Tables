@@ -100,7 +100,11 @@ def hash_table_retrieve(hash_table, key):
 # Fill this in
 # '''
 def hash_table_resize(hash_table):
-    pass
+    new_ht = HashTable(hash_table.capacity * 2)
+    for index, pair in enumerate(hash_table.storage):
+        new_ht.storage[index] = pair
+    return new_ht
+
 
 
 def Testing():
