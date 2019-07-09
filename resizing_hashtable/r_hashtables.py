@@ -41,13 +41,15 @@ def hash_table_insert(hash_table, key, value):
     if hash_table.storage[index] is not None:
         key_exists = False
         current = hash_table.storage[index]
+        if current.key == key:
+            current.value = value
+            return
         while current.next is not None:
+            current = current.next
             if current.key == key:
                 current.value = value
                 key_exists = True
                 break
-            else:
-                current = current.next
         if not key_exists:
             current.next = LinkedPair(key, value)
     else:
@@ -86,13 +88,14 @@ def hash_table_retrieve(hash_table, key):
     if hash_table.storage[index] is not None:
         key_found = False
         current = hash_table.storage[index] 
-        while current.key != key and current.next is not None:
+        if current.key == key:
+            return current.value
+        while current.next is not None:
             current = current.next
             if current.key == key:
                 key_found = True
                 return current.value
-        if not key_found:
-            return None
+        return None
     else:
         return None
 
