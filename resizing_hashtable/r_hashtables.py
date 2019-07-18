@@ -17,14 +17,18 @@ class LinkedPair:
 # '''
 class HashTable:
     def __init__(self, capacity):
-        pass
+        self.capacity = capacity
+        self.storage = [None] * capacity
 
 
 # '''
 # Research and implement the djb2 hash function
 # '''
 def hash(string, max):
-    pass
+    hash = 5381
+    for x in string:
+        hash = (hash * 33) + ord(x)
+    return hash % max
 
 
 # '''
@@ -33,7 +37,28 @@ def hash(string, max):
 # Hint: Used the LL to handle collisions
 # '''
 def hash_table_insert(hash_table, key, value):
-    pass
+    index = hash(key, hash_table.capacity)
+    if hash_table.storage[index] is not None:
+        key_exists = False
+        current = hash_table.storage[index]
+
+        #check if the root if linked list has the key if so return early
+        if current.key == key:
+            current.value = value
+            return
+
+        #traverse through the linked list looking for the key 
+        while current.next is not None:
+            current = current.next
+            if current.key == key:
+                current.value = value
+                key_exists = True
+                break
+        #add at the end if its not found
+        if not key_exists:
+            current.next = LinkedPair(key, value)
+    else:
+        hash_table.storage[index] = LinkedPair(key, value)
 
 
 # '''
@@ -42,7 +67,25 @@ def hash_table_insert(hash_table, key, value):
 # If you try to remove a value that isn't there, print a warning.
 # '''
 def hash_table_remove(hash_table, key):
-    pass
+    index = hash(key, hash_table.capacity)
+    if hash_table.storage[index] is not None:
+        key_found = False
+        current = hash_table.storage[index] 
+        # check if the root of linkedlist has the key and return early
+        if current.key == key:
+            current.value = None
+            return
+
+        while current.key != key and current.next is not None:
+            current = current.next
+            if current.key == key:
+                key_found = True
+                current.value = None
+                break
+        if not key_found:
+            print('Key not found')
+    else:
+        print('Key not found')
 
 
 # '''
@@ -51,14 +94,34 @@ def hash_table_remove(hash_table, key):
 # Should return None if the key is not found.
 # '''
 def hash_table_retrieve(hash_table, key):
-    pass
+    index = hash(key, hash_table.capacity)
+    if hash_table.storage[index] is not None:
+        key_found = False
+        current = hash_table.storage[index] 
 
+        # check if root of linked list has the key and return the value
+        if current.key == key:
+            return current.value
+
+        while current.next is not None:
+            current = current.next
+            if current.key == key:
+                key_found = True
+                return current.value
+
+        return None
+    else:
+        return None
 
 # '''
 # Fill this in
 # '''
 def hash_table_resize(hash_table):
-    pass
+    new_ht = HashTable(hash_table.capacity * 2)
+    for index, pair in enumerate(hash_table.storage):
+        new_ht.storage[index] = pair
+    return new_ht
+
 
 
 def Testing():
